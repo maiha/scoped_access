@@ -123,7 +123,7 @@ module ScopedAccess
     @applied_classes = Set.new
     class << self
       def reset
-        ActiveRecord::Base.logger.debug("ScopedAccess: reset %s" % @applied_classes.to_a.inspect)
+        ActiveRecord::Base.logger.info("ScopedAccess: reset %s" % @applied_classes.to_a.inspect)
         @applied_classes.each(&:reset_scope)
         @applied_classes.clear
       end
