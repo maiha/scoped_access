@@ -7,15 +7,13 @@ end
 
 require 'dispatcher'
 if ActionController.const_defined?(:Dispatcher)
-  # Rails2.1
+  # Rails2.1 to Rails2.3
   ActionController::Dispatcher.class_eval do
-    class << self
-      def define_dispatcher_callbacks_with_reset(cache_classes)
-        define_dispatcher_callbacks_without_reset(cache_classes)
-        ScopedAccess.reset
-      end
-      alias_method_chain :define_dispatcher_callbacks, :reset
-   end
+    def dispatch_with_scoped_access(*args)
+      ScopedAccess.reset
+      dispatch_without_scoped_access(*args)
+    end
+    alias_method_chain :dispatch, :scoped_access
   end
 
 else
